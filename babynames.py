@@ -41,6 +41,7 @@ def extract_names(filename):
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
   # +++your code here+++
+  extract = []
   file = open(filename)
   lines = file.read()
   match = re.search( r'Popularity\sin\s(\d\d\d\d)', lines)
@@ -48,12 +49,17 @@ def extract_names(filename):
 	  print "error: cannot find year"
 	  sys.exit(1)
   year = match.group(1)
-  match = re.search( r'(\d+)<\\td><td>(\w+)<\\td><td>(\w+)', lines)
+  extract = [str(year)]
+  match = re.findall( r'(\d+)</td><td>(\w+)</td><td>(\w+)', lines)
   if not match:
 	  print "error: cannot find names"
 	  sys.exit(1)
-  
-  return [str(year)]
+  #print match
+  for i in match:
+	  (rank, bname, gname) = i
+	  extract.append(str(rank)+ " "+ str(bname))
+	  extract.append(str(rank)+ " "+ str(gname))
+  return extract
 
 
 def main():
